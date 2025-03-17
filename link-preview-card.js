@@ -25,6 +25,7 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
     this.link="";
     this.image="";
     this.description="";
+    this.cards=[];
     
 
     this.t = this.t || {};
@@ -50,6 +51,7 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
       link: { type: String },
       image: { type: String },
       description: { type: String },
+      cards: { type: Array },
     };
   }
 
@@ -137,9 +139,14 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
       console.log(json.data);
       // document.querySelector('#here').innerHTML = JSON.stringify(json.data, null, 2);
       //  document.querySelector('#there').innerHTML = json.data["og:site_name"];
-      this.jsonTitle= json.data["title"];
-      console.log(json.data.url);
-      console.log(this.jsonTitle);
+      
+      this.jsonTitle = json.data["title"];
+      this.link=json.data["link"];
+      this.image=json.data["image"]
+      this,description= json.data["description"]
+
+      console.log(this.jsonTitle, this.link, this.image, this.description);
+
       if (json.data['twitter:card']) {
         
       }
@@ -149,10 +156,23 @@ export class LinkPreviewCard extends DDDSuper(I18NMixin(LitElement)) {
     }
   }
   
+isValidURL(string) {
+  try {
+    new URL(string);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+
+
+
 
   // Lit render the HTML
   render() {
     return html`
+    <textarea>Enter Link</textarea>
 <div class="link-preview-card">
     <a class="preview-link" href=${this.link} target="_blank">
     <img class="preview-image" src=${this.image} alt="Preview Image">
